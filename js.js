@@ -65,7 +65,7 @@ console.log(b); //babu
 // number
 // both integer and floating values
 // it will be show blue color in complier
-let a=10+1.0
+// let a=10+1.0
 console.log(a);//11
 console.log(typeof a);
 
@@ -106,7 +106,7 @@ console.log(f);//undefined
 // // it is used by the developer to indicate that variable is empty purpose
 // // also tell i know this variable exists and i am explicitly telling you  it has no value
 // //ex If you fetch a user's profile and they haven't uploaded a bio, the database might return null for the bio field.
-let user = { name: "John" };
+let user1 = { name: "John" };
 user = null; // We are explicitly saying there is no user anymore.
 
 // Type It is its own type: undefined      It is an object (historical JS bug)
@@ -124,14 +124,146 @@ console.log(b + 5); // 5   (because null is treated as 0 in math)
 // it is an Object
 // it is mutable means we can change its value
 // array
-console.log(typeof []); //object
-let arr=[1,2,3,4,5]
-console.log(arr);
-arr[0]=10
-console.log(arr);
+// console.log(typeof []); //object
+// let arr=[1,2,3,4,5]
+// console.log(arr);
+// arr[0]=10
+// console.log(arr);
 // object
-console.log(typeof {}); //object
-let obj={name:"ram",age:22}
-console.log(obj);
-obj.age=23
-console.log(obj)
+// A JavaScript object is the exact same thing: a container for named values, which we call **key-value pairs**.
+// - The **key** is the label (a `string` or `Symbol`).
+// - The **value** is the data (it can be *any* data type: a number, a string, a boolean, an array, or even another object).
+// **An object is a collection of labeled data.**
+// Think of a real-world object, like a person. A person has properties with labels and values:
+let person = {
+  name: "Alice", // Key is "name", Value is "Alice"
+  age: 30,       // Key is "age", Value is 30
+  isStudent: true // Key is "isStudent", Value is true
+};
+
+// CRUD operations on Object
+// creating a object
+const user={
+    name:"ram",
+    age:19,
+    Email:"abc@gmail.com"
+}
+//reading a object
+console.log(user)
+console.log(user.name)
+console.log(user.age)
+//updating a object
+user.age=20
+user["Email"]="xyz@gmail.com"
+console.log(user)
+//deleting a object property
+delete user.Email
+console.log(user)
+
+// // level up
+
+const user2={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com"
+}
+
+//name and age and email the object how the keys store in the memory
+// behind the scenes it store like this "name" "age" "Email" to proving this we use 
+console.log(user2["name"]) //babu  or console.log(user2.name) both are same
+console.log(user2["age"]) 
+console.log(user2["Email"]) 
+
+// supoose i need to add a new key like home address:"adb"
+// i write like this it will give error(undfined) to solve this we use "home address" :"adb"
+//i will access like console.log(user2["home address"]) not user2.home address it will give error
+const user2={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com"
+    home address:"adb"
+}
+console.log(user2.home address) //error
+const user2={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com",
+    "home address":"adb"
+}
+console.log(user2["home address"]) //adb
+//that why we use bracket notation when the key has special characters or spaces. 
+const user2={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com"
+}
+
+//to access keys 
+console.log(Object.keys(user2)); //[name, age, Email]
+//to access values
+console.log(Object.values(user2)); //[babu, 50,babu@gmail.com]
+//to access both keys and values
+console.log(Object.entries(user2));// [[name,babu],[age,50],[Email,babu@gmail.com]]
+
+const user2={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com"
+}
+const user3=user2 // it is not a copy it is reference assignment both point to same memory location(copy by reference)
+user2.age=20
+console.log(user3.age); //20
+//changes done in user2 and user3 both because both point to same memory location
+
+//loops in object
+// in object we use for...in loop
+const user4={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com"
+}
+for(let keys in user4){
+    console.log(keys);
+}
+for(let values in user4){
+    console.log(user4[values]);//why we dont write like this user4.values if we write like this it will give keysname undefined it checks key with name values not the value of key
+}
+for(let entries in user4){
+    console.log(entries, user4[entries]);
+}
+
+// creating two variables and stroing keys and values in that
+let name=user4.name //or user4["name"]
+let age=user4.age //or user4["age"]
+// it is not a good practice to solve this problem we use destructuring
+const {name,age}=user4 //destructuring
+console.log(name,age);
+//assigning name to that variable just like aliasing or renaming
+const {name:username,age:userage}=user4
+console.log(username,userage); 
+const {name as username,age as userage}=user4
+console.log(username,userage);
+
+// // for...of loop we cant use in object directly because it is not iterable
+// but we can use it with Object.keys() , Object.values() , Object.entries()
+//beacause these methods return iterable objects like array
+for (let keys of Object.keys(user4)){
+    console.log(keys);
+}
+//name age
+for (let values of Object.values(user4)){
+    console.log(values);
+}
+// babu 50 
+console.log( Object.entries(user4));// [[name,babu],[age,50],[Email,babu@gmail.com]]
+
+// it iterate over array of arrays then it print each array below given
+for(let entries of Object.entries(user4)){
+    console.log(entries);
+}
+// [name,babu] [age,50] [Email,babu@gmail.com]
+to solve this we use destructuring inside for...of loop
+for(let [keys,values] of Object.entries(user4)){
+    console.log(keys,values);
+}
+// name babu age 50 Email
