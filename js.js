@@ -267,3 +267,255 @@ for(let [keys,values] of Object.entries(user4)){
     console.log(keys,values);
 }
 // name babu age 50 Email
+
+create a function in object 
+const user4={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com",
+    run:function(){
+        console.log("running");
+    }
+}
+user4.run(); //running
+//shortcut to create function in object
+const user4={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com",
+    run(){
+        console.log("running");
+    }
+}
+user4.run(); //running
+
+// //returning a value from function inside object
+const user4={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com",
+    run:function(){
+        console.log("running");
+        return "ran successfully"
+    }
+}
+let v=user4.run()
+console.log(v);
+
+// // // this keyword in object function
+const user4={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com",
+    run:function(){
+        console.log("running");
+        return "ran successfully"
+    }
+}
+let v=user4.run()
+console.log(v);
+console.log(this); //window object
+console.log(this.user4); //undefined because this point to window object and user4 is not a property of window object
+
+//nested object
+ const user4={
+    name:"babu",
+    age:50,
+    Email:"babu@gmail.com",
+    address:{
+        city:"ADB",
+        state:"ts"
+}
+}
+console.log(user4) //entire object
+console.log(user4.address) //{city:"ADB", state:"ts"}
+console.log(user4.address.city) //ADB
+
+const user5=user4 //copy by reference both point to same memory location
+//to make independent copy we use spread operator
+const user5={...user4} //shallow copy
+user4.address.city="hyd"
+console.log(user5.address.city); //hyd because it is shallow copy only 1st level it make copy not the nested object
+//to make deep copy we use 
+
+
+const User4 = {
+  name: "ram",
+  age: 20,
+  address: { // A nested object
+    city: "adb"
+  },
+  roles: ["editor", "viewer"] // An array
+};
+
+// Use the built-in function to create a deep copy
+const deepClone = structuredClone(User4);
+
+// --- Let's prove it's a deep copy ---
+
+// 1. Change a top-level primitive in the clone
+deepClone.age = 31;
+
+// 2. Change a property in the NESTED object
+deepClone.address.city = "hyd";
+
+// --- Check the original object ---
+// Everything is completely untouched!
+console.log(User4.age);              // 20
+console.log(User4.address.city);     // "adb"
+console.log(User4.roles);            // ["editor", "viewer"]
+
+ // Array;
+ // it is non primitive data type
+// it is an object
+// it hold multiple values at a time
+// it is mutable
+//  array is a collection of items stored at contiguous memory locations
+// eac h item can be accessed by its index
+//array in js is dynamic in nature if we assign more elements it will increase its size automatically
+
+let marks1 = 100;
+ let marks2 = 50;
+let marks3 = 70;
+let marks4 = 80;
+ // to solve this problem we use array
+// let marks = [100,50,70,80,90];
+
+ console.log(marks);
+ console.log(marks.length);
+
+ let arr = [100,30,"Rohit",true];
+
+console.log(arr[2]);
+console.log(typeof arr);
+
+arr[1] = 90; // or arr.push(90);
+console.log(arr);
+
+push : Insert element at end
+
+ arr.push(90);
+arr.push("Strike");
+
+console.log(arr);
+
+// // pop operation: Delete element from end
+arr.pop();
+console.log(arr);
+
+// unshift : add element at starting
+arr.unshift(10);
+arr.unshift(50);
+console.log(arr);
+
+// shift : delete element from starting
+arr.shift();
+console.log(arr);
+
+ let arr = [10,30,50,90,11];
+
+for(let i=0;i<arr.length;i++){
+    console.log(arr[i]);
+}
+
+//for ...of loop
+for(let num of arr){
+    console.log(num);
+}
+
+ let arr = [10,30,50,90,11];
+ let arr2 = arr;
+
+arr2.push(30);
+
+console.log(arr);// chnages in arr2 reflect in arr because both point to same memory location
+Object(non primitive): Copy by reference hote hai
+Primitive: Copy by value
+
+const arr = [10,30,50,90,11];
+arr[2] = 30;
+console.log(arr);
+
+
+/cnst arr = [10,30,50,90,11];
+arr[50,70,80];//  it will not add these elements in array beacuse we create a seperate array with these elements it will not add in arr  above array address and this array address is different 
+console.log(arr);
+
+const arr = [10,30,50,90,11];
+arr[2] = 30; // 
+console.log(arr);  //here we are updating the value at index 2 the address is same only value is changed
+
+///slice and splice
+// in array slice and splice both are used to remove elements from array 
+//  slice does not modify original array it return new array with selected elements
+const arr = [10,30,50,90,11];
+const arr2 = arr.slice(2,4);  //start from index 2 to index 4-1
+console.log(arr2); //[50,90]
+// //  where as splice modifies original array and return removed elements
+ arr.splice(1,3);// start from index 1 remove 3 elements and add "Rohit" and 19 at index 
+ console.log(arr);//[10,11]
+const arr3 = arr.splice(1,3,"Rohit",19);
+console.log(arr3);//[30,50,90]
+
+//merging arrays
+const arr = [10,30,50,90,11];
+const arr2 = ["Rohit",11,true];
+const arr4 = [90,4,false];
+
+ arr.push(arr2);
+const arr3 = arr.concat(arr2,arr4); // [10, 30, 50, 90, 11, 'Rohit', 11, true, 90, 4, false]
+ const arr3 = [arr,arr2,arr4];// ) [Array(5), Array(3), Array(3)]
+
+// spread operator
+
+const arr3= [...arr,...arr2,...arr4];
+console.log(arr3);
+
+
+ const names = ["Alice", "Rohit","Bob","Mohit", "Charlie",];
+
+console.log(names.toString()); //Alice,Rohit,Bob,Mohit,Charlie
+ console.log(names.join("-")); //Alice-Rohit-Bob-Mohit-Charlie
+console.log(names.indexOf("Bob")); //2 if element not found it return -1
+ console.log(names.lastIndexOf("Bob")); //2
+ console.log(names.includes("Bobs")); //false it tell whether the array contains a specific element or 
+
+names.sort();// it sort in ascending order based on unicode values called ascci values
+names.reverse(); //it reverse the array
+console.log(names); // ['Charlie', 'Mohit', 'Rohit', 'Bob', 'Alice']
+
+const a = ["101","90","80","32","91"];
+ const arr = [10,"Rohit","Mohan",true];
+
+arr.sort();
+console.log(arr);
+
+const arr = [10,40,31,71,5,11];
+
+ arr.sort((a,b)=> a-b);
+// // ascending order
+
+arr.sort((a,b)=> b-a); // if subtraction is -ve it means b is greater than a so b will come first
+// if subtraction is +ve it means a is greater than b so a will come first
+// 40,10
+// a = 10
+// b = 40
+// 10,31, 40
+// a = 10
+// b = 31
+// -ve : pehle a aayega fr aayega
+// +ve: b aayega fr a aayge
+console.log(arr);
+
+// flat in array
+// const arr = [10,30,50,[40,90,[60,19,99],11], 80];
+
+const a = arr.flat();// it flaten only 1 level deep measn it remove only 1 level of nested array output: [10, 30, 50, 40, 90, Array(3), 11, 80]
+const a = arr.flat(Infinity);// it flaten all level deep
+console.log(a);
+console.log(arr[3][2][1]);
+
+
+const a = [10,309,"Rohit",9.3, true];
+a.name = "Moahn";
+console.log(a);
