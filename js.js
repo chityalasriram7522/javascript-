@@ -262,7 +262,7 @@ for(let entries of Object.entries(user4)){
     console.log(entries);
 }
 // [name,babu] [age,50] [Email,babu@gmail.com]
-to solve this we use destructuring inside for...of loop
+// to solve this we use destructuring inside for...of loop
 for(let [keys,values] of Object.entries(user4)){
     console.log(keys,values);
 }
@@ -522,8 +522,8 @@ console.log(a);
 
 
 
-Functions in js
-// it is a block of code designed to perform a particular task
+// Functions in js
+// // it is a block of code designed to perform a particular task
 
 function run(){
     console.log("running");
@@ -534,7 +534,7 @@ function run(){
     console.log("running");
 }
 console.log(run()); //running 
-// undefined because function run does not return any value so by default it return undefined
+// // undefined because function run does not return any value so by default it return undefined
 
 
 function run(){
@@ -570,7 +570,7 @@ function meet(callback){
 }
 meet(greet); // I am going to meet someone    Hello Ji, Kaise ho    I have finished meeting
 // suppose i need to 
-// meet(dance);
+meet(dance);
 
 function greet(){
    console.log("Hello Ji, Kaise ho")
@@ -605,7 +605,7 @@ function payment(amount){
 }
 payment(500);
 
-// using callback 
+// // using callback 
 
 function Placed(){
     console.log("We have started preparing your food");
@@ -640,166 +640,162 @@ payment(500,Placed);
 payment(200,blinkitOrderPlaced)
 
 
-//  function
+// //  function
 
-// function greeting(){
-//     console.log("Hello Coder Army, Strike is coming on 18 october");
-//     return 10;
-// }
+function greeting(){
+    console.log("Hello guys");
+}
+greeting();
 
+//returning somthing
+function greeting(){
+    console.log("Hello guys");
+    return 10;
+}
+let a=greeting();
+console.log(a);
 
-// function addNumber(num1,num2,num3=0,num4=0){
+// different ways to declare a function
+// This is the classic way we saw above.
+function add(a, b) {
+  return a + b; 
+}
+
+// Key Feature: Hoisting.** Function declarations are "hoisted," 
+// meaning the JavaScript engine "lifts" them to the top of their scope before the code is executed.
+// This means you can call a function *before* you define it in the code.
+
+console.log(add(2, 3)); // 5 (This works!)
+function add(a, b) {
+  return a + b;
+}
+
+//  Function Expression**
+// // Here, you create an anonymous (unnamed) function and assign it to a variable.
+const subtract = function(a, b) {
+  return a - b;
+};
+
+// // key Feature: Not Hoisted.** A function expression is not hoisted. It behaves just like a variable.
+// //  You cannot call it before it is defined.
+
+// // subtract(10, 5); // This would throw a ReferenceError!
+const subtract = function(a, b) {
+  return a - b;
+};
+subtract(10, 5); //not show output to show output we need use console.log or store the function call in a variable then log that variable
+console.log(subtract(10,5))
+
+//Arrow Functions
+
+// // First Thought: "A shorter, cleaner syntax for writing functions."
+// //Arrow functions are a more concise way to write function expressions. They are extremely popular in modern JavaScript.
+
+// // A function expression
+const multiply = function(a, b) {
+  return a * b;
+}
+
+// // The same function as an arrow function
+const multiplyArrow = (a, b) => {
+  return a * b;
+}
+
+// // Syntax Rules for Arrow Functions:**
+
+// // Implicit Return:If the function body is just a single expression, you can remove the curly braces `{}` and the `return` keyword.
+// const multiplyShort = (a, b) => a * b; 
+// // The result of a * b is automatically returned.
     
-//     const sum = num1+num2+num3+num4;
-//     console.log(sum);
-// }
+// // Single Parameter:If there is only one parameter, you can remove the parentheses `()`.
+Traditional
+const square = function(x) {
+  return x * x;
+};
+    const square = x => x * x;    
+// You've already seen this in action with the array sort method: `(a, b) => a - b`. 
+// This is a concise arrow function that implicitly returns the result of `a - b`
 
-// greeting();
-// addNumber(3,4);
+// If you have zero or more than one parameter, the parentheses arerequired
+const sayHello = () => "Hello"; // Zero parameters
+const sum = (a, b, c) => a + b + c; // Three parameters
 
-// rest operator
-// function addNumber(...num){
-   
-//     let sum=0;
+//Important Gotcha: Returning an Object Literal
+// If you want to implicitly return an object literal, you must wrap it in parentheses to distinguish it from a function body's curly braces.
 
-//     for(let n of num){
-//         sum+=n;
-//     }
+// // WRONG: This is interpreted as a function body with a label, returning undefined.
+const createUser = name => { name: name };
 
-//     console.log(sum);
-    
-// }
+// // CORRECT: Wrap the object in parentheses.
+const createUserCorrect = name => ({ name: name });
 
+// Advanced Parameter Concepts
 
-// addNumber(6,7);
-// addNumber(6,7,8);
-// addNumber(6,7,8,9);
-// addNumber(7,8,12,12,11,12,41,12)
-
-// console.log(greeting());
-
-
-// const arr = [10,20,30,40,50];
-// const arr2 = [30,70,90,10]
-
-// const [first,second, ...num] = arr;
-// console.log(first,second, num);
-
-// const ans = [arr,arr2];
-// console.log(ans);
+// Default Parameters (ES6)
+// You can provide a default value for a parameter in case it's not passed in (i.e., it's `undefined`).
+// The default value for 'name' is "Guest".
+function greet(name = "Guest") {
+  console.log(`Hello, ${name}!`);
+}
+greet("Alice"); // Hello, Alice!
+greet();        // Hello, Guest!
 
 
+// Rest Parameters (`...`) 
+// This allows a function to accept an **indefinite number of arguments and gather them into a true array
+// First Thought: "Put the rest of the ingredients into a single bag.
+// The '...numbers' gathers all arguments passed into an array called 'numbers'.
+function sumAll(...numbers) {
+  let total = 0;
+  for (const num of numbers) {
+    total += num;
+  }
+  return total;
+}
+console.log(sumAll(1, 2));             // 3
+console.log(sumAll(1, 2, 3, 4, 5));    // 15
+console.log(sumAll(10));               // 10
+// The rest parameter must be the last parameter in the function definition.
 
-// function: expression
+// REST Operator (Collecting/Packing)
+// Takes multiple individual elements and  collects them into an array
+// Rest: Collect all remaining arguments into an array
+function sum(...numbers) {
+    console.log(numbers);  // numbers is an array
+    return numbers.reduce((total, num) => total + num, 0);
+}
 
-// console.log(addNumber(3,4));
+console.log(sum(1, 2, 3, 4, 5));  // 15
+// // Inside the function, numbers = [1, 2, 3, 4, 5]
 
-// function addNumber(num1,num2){
-//     return num1+num2;
-// }
+// // Mixing regular params with rest
+function introduce(greeting, ...names) {
+    console.log(greeting);  // "Hello"
+    console.log(names);     // ["Alice", "Bob", "Charlie"]
+}
 
+// introduce("Hello", "Alice", "Bob", "Charlie");
 
+// // SPREAD: Taking an array and spreading it out
+const arr = [1, 2, 3];
+console.log(...arr);  // 1 2 3 (three separate values)
 
+// // REST: Taking separate values and collecting them
+function example(...params) {
+    console.log(params);  // [1, 2, 3] (one array)
+}
+example(1, 2, 3);
 
-// const addNumber =function(num1,num2){
-//     return num1+num2;
-// }
-
-// console.log(addNumber(3,4));
-
-
-// arrow function
-
-// ()=>{
-
-// }
-
-// const addNumber = (num1,num2)=>{
-//    return num1+num2;
-// }
-
-// let arr = [10,11,19,7,50];
-
-// arr.sort((a,b)=>b-a);
-// console.log(arr);
-
-// const addNumber = (num1,num2) => num1+num2;
-
-
-// if we have single parameter, no need of this ()
-// const squareNumber = num => num*num;
-
-
-
-// // console.log(addNumber(3,4));
-// console.log(squareNumber(6));
-
-
-// const greeting = ()=> {
-//     return {
-//         name:"Rohit",
-//         age:20,
-//     }
-// }
-
-
-// const greeting = ()=> ({ name:"Rohit",age:20});
-
-
-// console.log(greeting());
-
+// Quick Rule
+// Spread = `...` takes ONE thing → makes it MANY
+// Rest = `...` takes MANY things → makes it ONE
 
 // IIFE
 
-// (function greeting(){
-//     console.log("Helloji");
-// })();
+(function greeting(){
+    console.log("Helloji");
+})();
 
-// (()=>{
-//     console.log("hi");
-// })();
-
-
-
-
-// function greet(){
-//     console.log("Hello Ji, Kaise ho")
-// }
-
-// function dance(){
-//     console.log("I am dancing");
-// }
-
-// function meet(callback){
-//     console.log("I am going to meet someone");
-//     // dance(); hardcode (Reusable)
-//     // code hota jisko marta
-//     callback();
-//     console.log("I have finished meeting");
-// }
-
-// meet(greet);
-// meet(dance);
-
-// blinkit
-
-// function blinkitOrderPlaced(){
-//     console.log("We have started packing your Order");
-// }
-
-// function zomatoOrderPlaced(){
-//     console.log("We have started preparing your food");
-// }
-
-// function payment(amount,callback){
-//     console.log(`${amount} payment has initilized`)
-//     console.log("Payment is received");
-//     callback();
-
-//     // GST: Government
-//     // Rider ko kitna payment dena
-//     // company ko kitna 
-// }
-
-// payment(500,zomatoOrderPlaced);
-// payment(300,blinkitOrderPlaced);
+(()=>{
+    console.log("hi");
+})();
