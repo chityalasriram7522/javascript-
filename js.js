@@ -799,3 +799,114 @@ example(1, 2, 3);
 (()=>{
     console.log("hi");
 })();
+
+
+//DOM
+//Start with a Question:**
+
+//You have HTML and JavaScript. How do they talk to each other
+
+//The Setup:
+
+
+// <!-- index.html -->
+// <!DOCTYPE html>
+// <html>
+// <head>
+//     <title>My Page</title>
+// </head>
+// <body>
+//     <h1>Hello World</h1>
+//     <p>This is a paragraph.</p>
+// </body>
+// </html>
+
+// // script.js
+// // How do I change "Hello World" to "Goodbye World"?
+// // How do I make the paragraph red?
+// // How do I add a new button?
+
+// //**The Core Problem:**
+// // - HTML is just **text with tags** (markup language)
+// // - JavaScript is a **programming language** (works with objects, functions, variables)
+// // - They speak different "languages"!
+
+// //What is the DOM?
+
+// //Definition (Simple):
+// //The DOM (Document Object Model) is a tree-like representation of your HTML document that JavaScript can understand and manipulate
+
+// <html>
+//   <head>
+//     <title>My Site</title>
+//   </head>
+//   <body>
+//     <h1>Welcome</h1>
+//     <p>Hello there!</p>
+//   </body>
+// </html>
+
+//browser create like this
+
+// document
+// └── html
+//     ├── head
+//     │   └── title
+//     │       └── "My Site"
+//     └── body
+//         ├── h1
+//         │   └── "Welcome"
+//         └── p
+//             └── "Hello there!"
+ 
+//  The Classic, Specific Methods (The Old Guard)
+
+// These were the original ways to select elements. They are very fast for their specific purpose but are less flexible than the modern methods.
+
+document.getElementById('id')
+
+// - **What it does:** Selects the **single** element that has the specified `id`.
+// - **Returns:** A **single element object**, or `null` if no element with that ID is found.
+// - **First Thought:** "Get me the one, unique thing with this exact ID."
+
+const mainContainer = document.getElementById('main-container');
+mainContainer.style.border = '2px solid red'; // Puts a red border around the main div
+
+const itemList = document.getElementById('item-list');
+console.log(itemList);
+
+
+// **Why it's great:** It's extremely fast and direct because IDs are meant to be unique in a document. This is the best method to use when you have a unique ID.
+
+document.getElementsByTagName('tagName')
+
+// - **What it does:** Selects **all** elements that have the specified tag name (like `p`, `li`, `div`).
+// - **Returns:** A **live `HTMLCollection`** (an array-like object) of all matching elements.
+// - **First Thought:** "Get me all the paragraphs" or "Get me all the list items."
+
+const allParagraphs = document.getElementsBy
+
+function pickUpPizza() {
+  console.log("Pizza is ready! Driving to the store to pick it up.");
+}
+
+
+function orderPizza(callback) {
+  
+  
+  console.log("Placing the pizza order...");
+
+    console.log("Pizza is cooked!");
+  
+    callback();
+
+  
+}
+
+// --- Let's run the program ---
+// We call orderPizza and give it our pickUpPizza function as the callback argument.
+orderPizza(pickUpPizza);
+
+// This line will run immediately, while the pizza is still "cooking".
+console.log("I'm not waiting at the store. I'm at home, coding.");
+
