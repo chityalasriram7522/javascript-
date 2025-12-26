@@ -800,14 +800,231 @@ example(1, 2, 3);
     console.log("hi");
 })();
 
+//  What is Scope?
+
+// Scope = The visibility and  accessibility of variables. It answers: "From where can I access this variable?"
+// Think of scope like rooms in a house:
+// - Variables declared in a room are accessible in that room
+// - You can look OUT from inner rooms to outer rooms
+// - You CANNOT look IN from outer rooms to inner rooms
+
+// The Three Types of Scope
+// 1. Global Scope (The House Itself)
+// Variables declared outside any function or block are global
+const globalVar = "I'm global";
+function someFunction() {
+    console.log(globalVar);  // it Can access
+}
+someFunction();  // "I'm global"
+console.log(globalVar);  // it Can access from anywhere
+
+// Real-world analogy: Like the air outside - everyone can access it.
+
+// Function Scope (A Room)
+// Variables declared inside a function are only accessible inside that function
+function myFunction() {
+    const functionVar = "I'm in the function";
+    console.log(functionVar);  // it Works
+}
+
+myFunction();  // "I'm in the function"
+console.log(functionVar);  // ReferenceError: functionVar is not defined
+// Key point: var, let, and const are all function-scoped (but let/const are also block-scoped).
+
+//Block Scope (A Closet in a Room)
+// Variables declared with `let` or `const` inside `{}` are **block-scoped**.
+if (true) {
+    let blockVar = "I'm in a block";
+    const alsoBlockVar = "Me too";
+    var notBlockScoped = "I'm different!";
+
+    console.log(blockVar);  // it Works
+}
+
+console.log(blockVar);  // ReferenceError
+console.log(alsoBlockVar);  //ReferenceError
+console.log(notBlockScoped);  // Works! (var ignores block scope)
+// Important: var is NOT block-scoped, only function-scoped!
+function testVar() {
+    if (true) {
+        var x = 10;
+    }
+    console.log(x);  // ✅ 10 - var leaks out of block!
+}
+
+function testLet() {
+    if (true) {
+        let y = 10;
+    }
+    console.log(y);  // ❌ ReferenceError - let respects block scope
+}
+// Lexical Scope (The Key Concept!)
+// Lexical scope** = Scope is determined by **where you write the code**, not where you call it.
+const name = "Global";
+
+function outer() {
+    const name = "Outer";
+
+    function inner() {
+        const name = "Inner";
+        console.log(name);  // Which "name" will this print?
+    }
+
+    inner();
+}
+
+outer();  // "Inner"
+// Why "Inner"?** JavaScript looks for variables in this order:
+// Current scope** (inner function) → Found `name = "Inner"` ✓
+// If not found, check uter scope(outer function)
+// If not found, check global scope
+// If still not found → ReferenceError
+// this is called the Scope Chain.
+// The Scope Chain in Action
+
+const level1 = "Global";
+
+function outer() {
+    const level2 = "Outer";
+
+    function middle() {
+        const level3 = "Middle";
+
+        function inner() {
+            const level4 = "Inner";
+
+            // Can access ALL outer scopes!
+            console.log(level4);  // "Inner"
+            console.log(level3);  // "Middle"
+            console.log(level2);  // "Outer"
+            console.log(level1);  // "Global"
+        }
+
+        inner();
+    }
+
+    middle();
+}
+outer();
+// Visual representation of scope chain:
+
+// inner() scope
+//     ↓ (can look up)
+// middle() scope
+//     ↓ (can look up)
+// outer() scope
+//     ↓ (can look up)
+// Global scope
+
+// But you CANNOT look down:
+
+function outer() {
+    function inner() {
+        const secret = "Hidden";
+    }
+
+    inner();
+    console.log(secret);  //  ReferenceError - can't look INTO inner function
+}
+
+
+// CLOSURES - Functions Remember Their Birthplace
+// What is a Closure?
+// Closure= A function that remembers variables from its outer scope even after the outer function has finished executing.
+// this is THE most important concept for understanding JavaScript
+function outer() {
+    const message = "Hello";
+
+    function inner() {
+        console.log(message);  // Accesses outer's variable
+    }
+
+    return inner;  // Return the function
+}
+
+const myFunction = outer();  // outer() finishes executing
+myFunction();  // "Hello" - but how does it still remember "message"?
+
+// What just happened?
+// 1. `outer()` runs and creates `message`
+// 2. `inner()` is defined INSIDE `outer()` - it "closes over" `message`
+// 3. `outer()` returns `inner` and finishes
+// 4. Normally, `message` would be garbage collected... **BUT**
+// 5. `inner` still has a reference to `message` - this is a **closure**!
+// 6. When we call `myFunction()` (which is `inner`), it still remembers `message`
+
+
+// Why Closures Exist
+
+// Without closures:** Functions would only access their own variables and globals.
+// With closures:** Functions can "carry" their environment with them!
+
+function createCounter() {
+    let count = 0;  // Private variable
+
+    return function() {
+        count++;  // Accesses outer variable
+        return count;
+    };
+}
+
+const counter = createCounter();
+
+console.log(counter());  // 1
+console.log(counter());  // 2
+console.log(counter());  // 3
+
+// "count" is NEVER directly accessible!
+console.log(count);  //  ReferenceError
+
+// Key insight: count lives on even though createCounter() finished! The returned function "closes over" it.
+
+
+// Higher-Order Functions in JavaScript
+// The Simplest Definition
+// A higher-order function is a function that either:**
+// takes a function as an argument**, OR
+// Returns a function as a result**
+
+// Why "Higher-Order"
+// Think of it like hierarchy:
+// Regular values: numbers, strings, booleans
+// First-order functions: functions that work with regular values
+// Higher-order functions: functions that work with other functions
+// In JavaScript, functions are **first-class citizens** - they can be treated like any other value (passed around, returned, stored in variables).
+
+// Array Methods
+const numbers = [1, 2, 3, 4, 5];
+
+// map is a higher-order function// It takes a function as an argument
+const doubled = numbers.map(function(num) {
+  return num * 2;
+});
+
+console.log(doubled); // [2, 4, 6, 8, 10]
+// Why is map higher-order? Because it accepts a function (function(num) { return num * 2 }) as a parameter.
+// Custom Higher-Order Function
+
+// repeat is a higher-order function
+function repeat(n, action) {
+  for (let i = 0; i < n; i++) {
+    action(i);
+  }
+}
+
+// Using it:
+repeat(3, function(i) {
+  console.log("Iteration " + i);
+});
+
+// Output:// Iteration 0// Iteration 1// Iteration 2
+
+
 
 //DOM
-//Start with a Question:**
-
+//Start with a Question:
 //You have HTML and JavaScript. How do they talk to each other
-
 //The Setup:
-
 
 // <!-- index.html -->
 // <!DOCTYPE html>
@@ -826,7 +1043,7 @@ example(1, 2, 3);
 // // How do I make the paragraph red?
 // // How do I add a new button?
 
-// //**The Core Problem:**
+// //The Core Problem:
 // // - HTML is just **text with tags** (markup language)
 // // - JavaScript is a **programming language** (works with objects, functions, variables)
 // // - They speak different "languages"!
@@ -858,9 +1075,73 @@ example(1, 2, 3);
 //         │   └── "Welcome"
 //         └── p
 //             └── "Hello there!"
- 
-//  The Classic, Specific Methods (The Old Guard)
 
+// HTML Elements Become Objects
+
+// html
+<h1 id="title">Hello</h1>
+
+Becomes:
+
+{
+  tagName: "H1",
+  id: "title",
+  textContent: "Hello",
+  style: { color: "", fontSize: "" },
+  parentElement: body,
+  children: [],
+  // ... many more properties and methods
+}
+// Tell students: "Every HTML tag becomes a JavaScript object with properties and methods!"
+// The window and document Objects
+
+// Draw this hierarchy:
+
+// Window (global object - the browser API)
+//     └── document (your HTML page as objects)
+//         └── documentElement (the <html> tag)
+//             ├── head
+//             └── body
+//                 └── (all your elements)
+
+// Key Points:
+// - `window` = The browser environment (has alert, setTimeout, localStorage, etc.)
+// - `document` = Your HTML page (the DOM tree)     
+
+// Different way to select the Element
+// Sample HTML to Work With
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM Selection</title>
+</head>
+<body>
+
+  <div id="main-container" class="container">
+    <h1 class="title">Main Title</h1>
+    <p>This is the first paragraph.</p>
+    <p class="content">This is the second paragraph with a class.</p>
+
+    <ul id="item-list">
+      <li class="item">Item 1</li>
+      <li class="item special">Item 2</li>
+      <li class="item">Item 3</li>
+    </ul>
+
+    <form name="login-form">
+      <input type="text" name="username">
+    </form>
+  </div>
+
+  <div class="container footer">
+    <p>Footer content.</p>
+  </div>
+
+</body>
+</html>
+
+
+//  The Classic, Specific Methods (The Old Guard)
 // These were the original ways to select elements. They are very fast for their specific purpose but are less flexible than the modern methods.
 
 document.getElementById('id')
@@ -884,7 +1165,27 @@ document.getElementsByTagName('tagName')
 // - **Returns:** A **live `HTMLCollection`** (an array-like object) of all matching elements.
 // - **First Thought:** "Get me all the paragraphs" or "Get me all the list items."
 
-const allParagraphs = document.getElementsBy
+const allParagraphs = document.getElementsByTagName('p');
+console.log(allParagraphs.length); // 3
+
+// You can loop through the collection
+for (let i = 0; i < allParagraphs.length; i++) {
+  allParagraphs[i].style.fontStyle = 'italic';
+}
+
+{/* What "live" means:** If you add a new `<p>` to the page *after* you've selected them, the `allParagraphs` collection will **automatically update** to include it. */}
+{/* `document.getElementsByClassName('className')` */}
+
+{/* - **What it does:** Selects **all** elements that have the specified class name. */}
+{/* - **Returns:** A **live `HTMLCollection`** of all matching elements. */}
+{/* - **First Thought:** "Get me everything with the class 'item'." */}
+
+const allItems = document.getElementsByClassName('item');
+console.log(allItems.length); // 3
+
+// You can also get elements with multiple classes
+const footerContainer = document.getElementsByClassName('container footer');
+console.log(footerContainer[0]);
 
 function pickUpPizza() {
   console.log("Pizza is ready! Driving to the store to pick it up.");
