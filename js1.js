@@ -109,3 +109,118 @@ for(let item of arr123){
     //    un.append(frag)// same distrub the ui
 }
 un.append(frag) ;// it show all at one time
+
+const event1=document.getElementById("event");
+function handle(){
+    event1.textContent="good morning guys"
+}
+
+
+const event1=document.getElementById("event");
+it it overrided just like variable
+event1.onclick=function handle(){
+    event1.textContent="mawaa"
+}
+event1.onclick=function handle(){
+    event1.textContent="guys" //override the mawaa to guys
+}
+
+it is method not overrided 
+event1.addEventListener('click',()=>{
+    event1.textContent="heeee"
+})
+event1.addEventListener("click",()=>{
+    event1.style.backgroundColor="pink"
+})
+
+let a={
+    b:20,
+    fun:function(value){
+        console.log("hello",value);
+        
+    }
+}
+a.fun(10);// hello 10
+a.fun(20);// hello 20 it is similar to addeventlistener
+a.b=30// b=30
+a.b=40//override b value to 40 it is similar to event1.onclick=func....
+
+const child=document.getElementById("child1")
+child.addEventListener("click",()=>{
+    child.textContent="hahah"
+})
+
+const parent=document.getElementById("parent")
+ using target
+parent.addEventListener("click",(e)=>{
+    e.target.textContent="thank"
+})
+without target
+console.log(parent.children);
+for(let node of parent.children){
+    node.addEventListener("click",()=>{
+        node.textContent="haaahahahah"
+    })
+}
+
+capture phase
+target phase
+bublling phase
+ const grandparent = document.getElementById("grandparent");
+grandparent.addEventListener('click',()=>{
+    // console.log(e.target);
+    console.log("GrandParent is clicked");
+},false)
+
+const parent = document.getElementById("parent");
+parent.addEventListener('click',()=>{
+    // console.log(e);
+    console.log("Parent is clicked");
+},false)
+
+const child = document.getElementById("child");
+child.addEventListener('click',()=>{
+    // console.log(e);
+    // e.stopPropagation();
+    console.log("child is clicked");
+},false)
+
+capture phase is default false if it is false print down to top(c to g) if it is true top to down (g to c)
+target phase which place we clicked and where we need to travers
+bubllig phase start when target pahse reached it back to th window to that window any event present perform it
+ const grandparent = document.getElementById("grandparent");
+grandparent.addEventListener('click',()=>{
+    // console.log(e.target);
+    console.log("GrandParent is clicked");
+},true)
+
+const parent = document.getElementById("parent");
+parent.addEventListener('click',()=>{
+    // console.log(e);
+    console.log("Parent is clicked");
+},true)
+
+const child = document.getElementById("child");
+child.addEventListener('click',()=>{
+    // console.log(e);
+    // e.stopPropagation();
+    console.log("child is clicked");
+},true)
+
+passing value in function
+const grandparent = document.getElementById("grandparent");
+grandparent.addEventListener('click',(e)=>{  //if we pass the value in function it return taotal infromation about the event like whcih palce do you cliked like x and y axis like that 
+    console.log(e.target);  //target helps which element is clicked 
+})
+const parent = document.getElementById("parent");
+parent.addEventListener('click',(e)=>{
+    console.log(e);
+})
+
+const child = document.getElementById("child");
+child.addEventListener('click',(e)=>{
+    console.log(e);
+    e.stopPropagation();  //to stop bubllling we use stoppropagation return only which we click that only performed
+})
+
+ 
