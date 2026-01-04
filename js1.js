@@ -224,3 +224,106 @@ child.addEventListener('click',(e)=>{
 })
 
  
+why js is single thread synchronuous langauage
+
+This ALWAYS runs in order. 
+JavaScript can't execute Second and Third simultaneously. 
+It's like a single-lane road - cars must go one at a time.
+console.log("first") //this task complete then it will go for next line 
+console.log("second") // if it will do this  task then it will go forther
+console.log("third")  //same 
+
+Synchronous = Blocking
+First Principle:Each line blocks the next line until it completes.
+function abcd(){
+    let sum=0;
+    for(let i=0;i<500;i++){
+        sum+=i;
+    }
+    console.log(sum);
+}
+console.log("first");
+abcd()
+console.log("second");
+
+Your browser freezes during abcd().
+You can't click buttons, scroll, or do anything. This is the problem.
+
+ Web APIs: JavaScript's Helpers
+First Principle The browser provides APIs that run OUTSIDE JavaScript's single thread.
+
+console.log("first");  //1
+setTimeout( ()=>{
+    console.log("second"); //3
+},3000)
+console.log("third");  //2
+
+JavaScript calls `setTimeout`
+The BROWSER takes over the timer (not JavaScript)
+JavaScript continues to line 3 immediately
+After 2 seconds, browser says "hey, run this callback"
+
+Event Loop:
+First Principle:The event loop connects the single-threaded JavaScript with async Web APIs.
+
+console.log("first");
+setTimeout( ()=>{
+    console.log("second");
+},3000)
+Promise.resolve().then(() => {
+  console.log('four');
+});
+console.log("third");
+
+Why this order Let me show you the mechanism:
+CALL STACK (JavaScript's single thread)
+[main code runs here, one line at a time]
+WEB APIs (Browser's territory)
+[setTimeout timers, fetch requests, DOM events]
+TASK QUEUES (Waiting area)
+- Microtask Queue (Promises) - HIGHER PRIORITY
+- Macrotask Queue (setTimeout, setInterval) - LOWER PRIORITY
+
+ Step-by-Step Event Loop Example
+console.log('A');
+setTimeout(() => console.log('B'), 0);
+Promise.resolve()
+  .then(() => console.log('C'))
+  .then(() => console.log('D'));
+console.log('E');
+Output: A, E, C, D, B
+
+1.Call Stack:Execute `console.log('A')` → Output: "A"
+2.Call Stack:See `setTimeout` → Send to Web API → Continue
+3.Call Stack:See `Promise.resolve()` → Add to Microtask Queue → Continue
+4. Call Stack:Execute `console.log('E')` → Output: "E"
+5. Call Stack Empty! Event loop checks:
+    - Microtask Queue first: Execute `C` → Output: "C"
+    - Another microtask: Execute `D` → Output: "D"
+    - Macrotask Queue: Execute `B` → Output: "B"
+
+
+// Common Web APIs
+
+// Timer APIs
+setTimeout(() => {}, 1000);
+setInterval(() => {}, 1000);
+// Network APIs
+fetch('https://api.example.com')
+  .then(response => response.json());
+// DOM Events
+document.getElementById('btn').addEventListener('click', () => {
+  console.log('Clicked!');
+});
+// File APIs
+fs.readFile('file.txt', (err, data) => {
+  console.log(data);
+});
+
+1. Single-threaded:JavaScript has ONE call stack
+2. Synchronous: Code runs line-by-line, blocking
+3. Web APIs: Browser provides async operations (timers, network, events)
+4. Event Loop:Checks if call stack is empty, then moves tasks from queues
+5. Queues:Microtasks (Promises) run before Macrotasks (setTimeout)
+
+This is why JavaScript can handle async operations despite being single-threaded - it delegates to the browser/runtime!
