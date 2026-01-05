@@ -327,3 +327,6 @@ fs.readFile('file.txt', (err, data) => {
 5. Queues:Microtasks (Promises) run before Macrotasks (setTimeout)
 
 This is why JavaScript can handle async operations despite being single-threaded - it delegates to the browser/runtime!
+
+callback hell 
+nothing but callbacks 
